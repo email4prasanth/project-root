@@ -1,3 +1,37 @@
+# version: '3.8'
+
+# services:
+#   backend:
+#     build: ./backend
+#     ports:
+#       - "3000:3000"
+#     depends_on:
+#       - postgres
+#     environment:
+#       POSTGRES_HOST: postgres
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: password
+#       POSTGRES_DB: testdb
+
+#   frontend:
+#     build: ./frontend
+#     ports:
+#       - "3001:3001"
+
+#   postgres:
+#     image: postgres:13
+#     environment:
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: password
+#       POSTGRES_DB: testdb
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+
+# volumes:
+#   pgdata:
+
 version: '3.8'
 
 services:
@@ -8,22 +42,29 @@ services:
     depends_on:
       - postgres
     environment:
-      POSTGRES_HOST: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: testdb
+      POSTGRES_HOST: postgres  # This should match the service name of the PostgreSQL container
+      POSTGRES_USER: postgres  # PostgreSQL username
+      POSTGRES_PASSWORD: password  # PostgreSQL password
+      POSTGRES_DB: testdb  # PostgreSQL database name
+      POSTGRES_PORT: 5432  # PostgreSQL port
+    links:
+      - postgres  # Ensure the backend service can communicate with the postgres service
 
   frontend:
     build: ./frontend
     ports:
       - "3001:3001"
+    depends_on:
+      - backend  # Ensure the frontend service starts after the backend service
+    environment:
+      REACT_APP_BACKEND_URL: http://backend:3000  # URL to the backend service
 
   postgres:
     image: postgres:13
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: testdb
+      POSTGRES_USER: postgres  # PostgreSQL username
+      POSTGRES_PASSWORD: password  # PostgreSQL password
+      POSTGRES_DB: testdb  # PostgreSQL database name
     ports:
       - "5432:5432"
     volumes:
