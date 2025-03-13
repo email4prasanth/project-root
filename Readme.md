@@ -44,7 +44,14 @@ docker rmi $(docker images -aq) --force
 docker images
 ```
 - pgadmin4 path `C:\Users\Lucky Dell\AppData\Local\Programs\pgAdmin 4\v7`
+- Install docker-compose
 ```sh
-sudo docker-compose up --build -d
+sudo apt update
+sudo apt install docker-compose-plugin -y
+sudo docker compose up --build -d
+cd project-root/
+git branch
+git pull origin master
+sudo docker compose up --build -d
 ```
 
