@@ -32,3 +32,21 @@ sudo docker ps
 # List available Docker images
 echo "\nAvailable Docker images:"
 sudo docker images
+
+# Navigate to project root and build backend
+cd project-root/
+cd backend
+sudo docker build -t backend-image .
+sudo docker run -d -p 3000:3000 --name backend-container backend-image
+
+docker ps
+
+# Navigate to frontend and build frontend
+cd ../frontend
+sudo docker build -t frontend-image .
+sudo docker run -d -p 3001:3001 --name frontend-container frontend-image
+
+docker ps
+
+# Set executable permission for this script
+chmod +x "$0"
