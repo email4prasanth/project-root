@@ -28,6 +28,10 @@ if ! sudo systemctl is-active --quiet docker; then
     exit 1
 fi
 
-# Verify Docker installation
+# Verify Docker installations
+echo -e "\n\033[1;34m========================\033[0m"
+echo -e "\033[1;32mDocker Version:\033[0m"
+echo -e "\033[1;34m========================\033[0m"
 docker --version
+echo -e "\033[1;34m========================\033[0m\n"
 

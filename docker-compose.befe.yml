@@ -9,7 +9,7 @@ services:
 
   frontend:
     build: ./frontend
-    contianer_name: frontend-container
+    container_name: frontend-container
     ports:
       - "3001:3001"
 
