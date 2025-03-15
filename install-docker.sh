@@ -8,8 +8,10 @@ sudo apt install -y wget net-tools curl jq unzip apt-transport-https ca-certific
 mkdir -p ~/docker
 cd ~/docker
 
-# Add Docker's official GPG key and repository
+# Add Docker's official GPG key and repository (overwrite if exists)
+sudo rm -f /usr/share/keyrings/docker-archive-keyring.gpg
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 # Install Docker
@@ -44,6 +46,3 @@ EOF
 
 # Prompt the user to log out and log back in
 echo -e "\n✅ Docker installation completed! Please log out and log back in (or reboot) for the group changes to take effect."
-
-# Set executable permission for this script
-chmod +x "$0"
