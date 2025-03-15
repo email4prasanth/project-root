@@ -29,34 +29,21 @@ fi
 # Verify Docker installation
 docker --version
 
-# Go back to the home directory
-cd ~
-
-# List Docker images and running containers
-echo -e "\nAvailable Docker images:"
-docker images
-echo -e "\nRunning Docker containers:"
-docker ps
-
-# Switch to root user and check Docker status
-sudo su - <<EOF
-echo -e "\nChecking Docker images as root user:"
-docker images
-echo -e "\nChecking running Docker containers as root user:"
-docker ps
-EOF
-
-# Add 'ubuntu' user to Docker group
+# Add current user and 'ubuntu' user to the Docker group
 sudo groupadd docker 2>/dev/null || echo "Docker group already exists"
+sudo usermod -aG docker $USER
 sudo usermod -aG docker ubuntu
 
-# Switch to 'ubuntu' user and check Docker status
-su - ubuntu <<EOF
-echo -e "\nChecking Docker images as 'ubuntu' user:"
+# Apply the group change without requiring a full logout
+newgrp docker <<EOF
+echo -e "\nChecking Docker images as the new group:"
 docker images
-echo -e "\nChecking running Docker containers as 'ubuntu' user:"
+echo -e "\nChecking running Docker containers as the new group:"
 docker ps
 EOF
+
+# Prompt the user to log out and log back in
+echo -e "\n✅ Docker installation completed! Please log out and log back in (or reboot) for the group changes to take effect."
 
 # Set executable permission for this script
 chmod +x "$0"
