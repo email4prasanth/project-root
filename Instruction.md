@@ -30,5 +30,13 @@ docker ps
 ### Launch Frontend and Backend
 - Run the be-fe container
 ```sh
-doceker-compose -f docker-compose.besfe.yml up -d
+docker-compose -f docker-compose.befe.yml up -d
+docker ps
+```
+- 
+## Launch postgres and pgadmin
+- Run the database container
+```sh
+docker-compose -f docker-compose.db.yml up -d
+docker ps
 ```
