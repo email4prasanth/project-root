@@ -31,18 +31,3 @@ fi
 # Verify Docker installation
 docker --version
 
-# Add current user and 'ubuntu' user to the Docker group
-sudo groupadd docker 2>/dev/null || echo "Docker group already exists"
-sudo usermod -aG docker $USER
-sudo usermod -aG docker ubuntu
-
-# Apply the group change without requiring a full logout
-newgrp docker <<EOF
-echo -e "\nChecking Docker images as the new group:"
-docker images
-echo -e "\nChecking running Docker containers as the new group:"
-docker ps
-EOF
-
-# Prompt the user to log out and log back in
-echo -e "\n✅ Docker installation completed! Please log out and log back in (or reboot) for the group changes to take effect."
