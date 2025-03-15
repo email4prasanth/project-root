@@ -2,7 +2,11 @@
 
 # Update package list and install prerequisites
 sudo apt update -y
-sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
+sudo apt install -y wget net-tools curl jq unzip apt-transport-https ca-certificates software-properties-common
+
+# Create a 'docker' directory and navigate into it
+mkdir -p ~/docker
+cd ~/docker
 
 # Add Docker's official GPG key and repository
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -25,28 +29,34 @@ fi
 # Verify Docker installation
 docker --version
 
-# List running containers
-echo "\nRunning Docker containers:"
-sudo docker ps
+# Go back to the home directory
+cd ~
 
-# List available Docker images
-echo "\nAvailable Docker images:"
-sudo docker images
-
-# Navigate to project root and build backend
-cd project-root/
-cd backend
-sudo docker build -t backend-image .
-sudo docker run -d -p 3000:3000 --name backend-container backend-image
-
+# List Docker images and running containers
+echo -e "\nAvailable Docker images:"
+docker images
+echo -e "\nRunning Docker containers:"
 docker ps
 
-# Navigate to frontend and build frontend
-cd ../frontend
-sudo docker build -t frontend-image .
-sudo docker run -d -p 3001:3001 --name frontend-container frontend-image
-
+# Switch to root user and check Docker status
+sudo su - <<EOF
+echo -e "\nChecking Docker images as root user:"
+docker images
+echo -e "\nChecking running Docker containers as root user:"
 docker ps
+EOF
+
+# Add 'ubuntu' user to Docker group
+sudo groupadd docker 2>/dev/null || echo "Docker group already exists"
+sudo usermod -aG docker ubuntu
+
+# Switch to 'ubuntu' user and check Docker status
+su - ubuntu <<EOF
+echo -e "\nChecking Docker images as 'ubuntu' user:"
+docker images
+echo -e "\nChecking running Docker containers as 'ubuntu' user:"
+docker ps
+EOF
 
 # Set executable permission for this script
 chmod +x "$0"
