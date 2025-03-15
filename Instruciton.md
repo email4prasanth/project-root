@@ -11,7 +11,13 @@
 - Install docker, docker-compose 
 ```sh
 bash install-docker.sh
+exit
+su - ubuntu
+docker images
+docker images
 bash install-docker-compose.sh
+docker --version
+docker-compose --version
 ```
 ### Launch Portainer
 - Run the Portainer container
